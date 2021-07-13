@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { produce } from "immer";
 
 const numRows = 50;
@@ -13,6 +13,21 @@ function App() {
         return rows;
     });
     const [running, setRunning] = useState(false);
+
+    // by using the useCallBack, we ensure that this function is only being run once.
+    // we are trying to access 'running' within this function, which is a problem because
+    // the running state changes repeatedly, so the runSimulation function would not stay uptodate.
+    // to combat this issue, we will store it in a REF
+    const runningRef = useRef(running);
+    runningRef.current = running;
+
+    const runSimulation = useCallback(() => {
+        if (!runningRef.current) {
+            return;
+        }
+        // simulate
+        setTimeout(runSimulation, 1000);
+    }, []);
 
     return (
         <>
