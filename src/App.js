@@ -64,7 +64,7 @@ function App() {
         });
 
         // simulate
-        setTimeout(runSimulation, 1000);
+        setTimeout(runSimulation, 100);
     }, []);
 
     return (
@@ -72,6 +72,10 @@ function App() {
             <button
                 onClick={() => {
                     setRunning(!running);
+                    if (!running) {
+                        runningRef.current = true;
+                        runSimulation();
+                    }
                 }}
             >
                 {running ? "stop" : "start"}
