@@ -15,13 +15,17 @@ const operations = [
     [-1, 0],
 ];
 
+const generateEmptyGrid = () => {
+    const rows = [];
+    for (let i = 0; i < numRows; i++) {
+        rows.push(Array.from(Array(numCols), () => 0));
+    }
+    return rows;
+};
+
 function App() {
     const [grid, setGrid] = useState(() => {
-        const rows = [];
-        for (let i = 0; i < numRows; i++) {
-            rows.push(Array.from(Array(numCols), () => 0));
-        }
-        return rows;
+        return generateEmptyGrid();
     });
     const [running, setRunning] = useState(false);
 
@@ -79,6 +83,24 @@ function App() {
                 }}
             >
                 {running ? "stop" : "start"}
+            </button>
+            <button
+                onClick={() => {
+                    setGrid(generateEmptyGrid());
+                }}
+            >
+                clear
+            </button>
+            <button
+                onClick={() => {
+                    const rows = [];
+                    for (let i = 0; i < numRows; i++) {
+                        rows.push(Array.from(Array(numCols), () => (Math.random() > 0.5 ? 1 : 0)));
+                    }
+                    setGrid(rows);
+                }}
+            >
+                random
             </button>
             <div className="grid" style={{ gridTemplateColumns: `repeat(${numCols}, 20px)` }}>
                 {grid.map((rows, i) =>
